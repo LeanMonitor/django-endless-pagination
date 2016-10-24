@@ -3,7 +3,13 @@
 from __future__ import unicode_literals
 
 from django.core.exceptions import ImproperlyConfigured
-from django.utils.importlib import import_module
+# DJANGO 1.10
+try:
+    # Django versions >= 1.9
+    from django.utils.module_loading import import_module
+except ImportError:
+    # Django versions < 1.9
+    from django.utils.importlib import import_module
 
 
 def load_object(path):

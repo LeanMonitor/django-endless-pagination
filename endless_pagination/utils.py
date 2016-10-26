@@ -42,11 +42,20 @@ def get_page_number_from_request(
     If the page does not exists in *request*, or is not a number,
     then *default* number is returned.
     """
+    #Django1.10 adaptation"
+    #try:
+    #    return int(request.REQUEST[querystring_key])
+    #except (KeyError, TypeError, ValueError):
+    #    return default
     try:
-        return int(request.REQUEST[querystring_key])
+        return int(request.GET[querystring_key])
     except (KeyError, TypeError, ValueError):
-        return default
-
+        pass
+    try:
+        return int(request.POST[querystring_key])
+    except (KeyError, TypeError, ValueError):
+        pass
+    return default
 
 def get_page_numbers(
         current_page, num_pages, extremes=DEFAULT_CALLABLE_EXTREMES,
